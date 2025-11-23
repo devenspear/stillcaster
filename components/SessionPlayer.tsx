@@ -316,17 +316,22 @@ export default function SessionPlayer({ session, onClose }: SessionPlayerProps) 
 
           setActualVoiceDuration(totalVoiceDuration)
 
-          // Keep user's requested duration - voice script should fit within this time
-          console.log(`⏱️ Session duration:`, {
-            requestedDuration: totalTime,
-            totalVoiceDuration,
-            voiceStartDelay: VOICE_START_DELAY
-          })
+          // FLEXIBLE DURATION: Use actual voice duration + music fades
+          // - 10s music intro (before voice starts)
+          // - Actual voice narration duration (natural pace, no rushing!)
+          // - 10s music outro (after voice ends)
+          const actualSessionDuration = VOICE_START_DELAY + totalVoiceDuration + MUSIC_FADE_AFTER_VOICE
 
-          // Warning if voice is significantly longer than requested time
-          if (totalVoiceDuration > totalTime - VOICE_START_DELAY) {
-            console.warn(`⚠️ Voice duration (${totalVoiceDuration}s) exceeds requested time minus delay (${totalTime - VOICE_START_DELAY}s). Script may be too long.`)
-          }
+          console.log(`⏱️ Session Duration (FLEXIBLE - based on actual voice):`)
+          console.log(`   Music Intro: ${VOICE_START_DELAY}s`)
+          console.log(`   Voice Narration: ${totalVoiceDuration.toFixed(1)}s`)
+          console.log(`   Music Outro: ${MUSIC_FADE_AFTER_VOICE}s`)
+          console.log(`   Total Session: ${actualSessionDuration.toFixed(1)}s (~${(actualSessionDuration / 60).toFixed(1)} min)`)
+          console.log(`   Requested Duration: ${session.duration} min (${totalTime}s)`)
+          console.log(`   Difference: ${(actualSessionDuration - totalTime).toFixed(1)}s`)
+
+          // Update total time to actual duration
+          setTotalTime(Math.ceil(actualSessionDuration))
 
           setLoadingMessage('✅ ElevenLabs voice ready!')
 
@@ -657,7 +662,9 @@ export default function SessionPlayer({ session, onClose }: SessionPlayerProps) 
           </button>
           <div className="text-center">
             <h1 className="text-lg font-bold text-white">{session.name}</h1>
-            <p className="text-xs text-gray-400">{session.layers.music_type} • {session.duration} min</p>
+            <p className="text-xs text-gray-400">
+              {session.layers.music_type} • ~{Math.ceil(totalTime / 60)} min
+            </p>
           </div>
           <div className="w-9 h-9"></div>
         </div>
@@ -683,7 +690,14 @@ export default function SessionPlayer({ session, onClose }: SessionPlayerProps) 
               style={{ width: `${progress}%` }}
             />
           </div>
-          <p className="text-sm text-gray-400 mt-2">{formatTime(totalTime)} total</p>
+          <p className="text-sm text-gray-400 mt-2">
+            ~{Math.ceil(totalTime / 60)} min total
+            {actualVoiceDuration > 0 && (
+              <span className="text-xs text-gray-500 ml-2">
+                (natural pace)
+              </span>
+            )}
+          </p>
 
           {phase === 'ready' && voiceSynthesis.current.constructor.name === 'VoiceSynthesis' && (
             <div className="mt-4 flex items-center justify-center space-x-2">

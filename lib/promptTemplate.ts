@@ -90,7 +90,12 @@ export class PromptTemplateManager {
   }
 
   /**
-   * Calculate word count based on duration accounting for SSML pauses and music timing
+   * Calculate word count based on duration accounting for SSML pauses and meditation pace
+   *
+   * IMPORTANT: This calculation is for SLOW MEDITATION PACE, not normal speech!
+   * - ElevenLabs voices configured for meditation speak ~70-80 WPM
+   * - SSML pauses (1.5s per sentence, 0.8s per comma) EXTEND duration significantly
+   * - We want natural, unhurried speech that matches meditation intent
    */
   calculateMaxWordCount(durationMinutes: number): number {
     // Account for 10-second music intro before voice starts
@@ -99,21 +104,33 @@ export class PromptTemplateManager {
     // Available time for voice narration (leaving room for music outro)
     const availableMinutes = durationMinutes - voiceStartDelay - 0.17; // 0.17 min = ~10s outro
 
-    // CRITICAL FIX: ElevenLabs actually speaks at ~120-140 words per minute
-    // SSML pauses DON'T significantly extend duration because pauses are IN ADDITION to words
-    // Previous 70 wpm was causing scripts to end at ~60% of requested duration
+    // MEDITATION PACE: Based on actual ElevenLabs voice profile testing
+    // - Bernard-1: "Speaking slowly" / "with a slow rhythm" / "Drawn out"
+    // - Kelli-2: "Extremely pleasing and comforting" / "Deep guided meditation"
+    // - With SSML pauses, effective rate is ~70-80 WPM for meditation voices
     //
-    // Use 130 words per minute as baseline for ElevenLabs default pace
-    // This accounts for:
-    // - Natural meditation speaking pace in ElevenLabs voice profiles
-    // - SSML breaks are added to the base speaking time
-    // - Ensures narration actually fills the requested duration
-    const wordsPerMinute = 130;
+    // NOTE: Test your voices at /api/voice/test-wpm to get exact WPM
+    const baseWordsPerMinute = 75; // Conservative meditation pace
 
-    // Add 10% safety buffer to ensure we don't run short
-    const wordCount = Math.floor(availableMinutes * wordsPerMinute * 1.1);
+    // SSML pauses ADD time on top of speaking time:
+    // - Each period (.) adds 1.5s pause
+    // - Each comma (,) adds 0.8s pause
+    // - Average sentence: ~15 words, 2-3 commas, 1 period = ~4s of pauses per sentence
+    // - This means 15 words takes ~12s speaking + 4s pauses = 16s total
+    // - Effective rate: 15 words / 16s * 60s = ~56 WPM with pauses
+    //
+    // Using 75 WPM base accounts for this pause time
+    const wordsPerMinute = baseWordsPerMinute;
 
-    console.log(`📊 Duration: ${durationMinutes}min | Available: ${availableMinutes.toFixed(2)}min | Words: ${wordCount}`);
+    // Calculate word count (no buffer - let meditation breathe naturally)
+    const wordCount = Math.floor(availableMinutes * wordsPerMinute);
+
+    console.log(`📊 Meditation Script Calculation:`);
+    console.log(`   Requested Duration: ${durationMinutes} min`);
+    console.log(`   Voice Available Time: ${availableMinutes.toFixed(2)} min (minus music fades)`);
+    console.log(`   Meditation Pace: ${wordsPerMinute} WPM (slow, with SSML pauses)`);
+    console.log(`   Target Word Count: ${wordCount} words`);
+    console.log(`   Expected Voice Duration: ~${(wordCount / wordsPerMinute).toFixed(1)} min`);
 
     return Math.max(50, wordCount);
   }
