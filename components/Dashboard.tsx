@@ -61,7 +61,7 @@ export default function Dashboard() {
         <div className="px-4 py-3 mobile-compact">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-xl font-bold text-white mb-0.5">Good Evening</h1>
+              <h1 className="text-xl font-bold text-white mb-0.5">Good Evening{user?.first_name ? `, ${user.first_name}` : ''}</h1>
               <p className="text-sm text-gray-400">{user?.email}</p>
             </div>
             <button
