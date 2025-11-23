@@ -11,6 +11,9 @@ module.exports = {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      padding: {
+        'safe': 'max(1rem, env(safe-area-inset-bottom))',
+      },
     },
   },
   plugins: [],

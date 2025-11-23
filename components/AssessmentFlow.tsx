@@ -483,8 +483,8 @@ export default function AssessmentFlow({ onComplete, onCancel }: Props) {
       </div>
 
       {/* Scrollable Content - Compact */}
-      <div className="flex-1 overflow-y-auto">
-        <div className="p-4 pb-3">
+      <div className="flex-1 overflow-y-auto scroll-smooth">
+        <div className="p-4 pb-24">
 
           {/* Step 1: Goal Selection */}
           {step === 1 && (
@@ -603,22 +603,26 @@ export default function AssessmentFlow({ onComplete, onCancel }: Props) {
                   </p>
                 </div>
 
-                <div className="space-y-5">
+                <div className="space-y-4">
                   {SURVEY_QUESTIONS.map((question) => (
-                    <div key={question.id} className="space-y-2.5">
-                      <h4 className="text-base font-semibold text-white">
+                    <div key={question.id} className="space-y-2">
+                      <h4 className="text-sm font-semibold text-white">
                         {question.question}
                       </h4>
-                      <div className="space-y-3">
+                      <div className="space-y-2">
                         {question.options.map((option) => (
-                          <AppleCard
+                          <button
                             key={option.id}
-                            isSelected={assessment[question.id as keyof typeof assessment] === option.id}
-                            onChange={() => handleSurveyAnswer(question.id, option.id)}
-                            title={option.label}
-                            icon={option.icon}
-                            gradient="from-gray-600 to-gray-700"
-                          />
+                            onClick={() => handleSurveyAnswer(question.id, option.id)}
+                            className={`w-full p-2.5 rounded-lg border transition-all flex items-center space-x-2.5 ${
+                              assessment[question.id as keyof typeof assessment] === option.id
+                                ? 'border-blue-500 bg-blue-500/10'
+                                : 'border-gray-600 bg-gray-800/30'
+                            }`}
+                          >
+                            <span className="text-lg">{option.icon}</span>
+                            <span className="text-sm text-white text-left flex-1">{option.label}</span>
+                          </button>
                         ))}
                       </div>
                     </div>
@@ -871,8 +875,10 @@ export default function AssessmentFlow({ onComplete, onCancel }: Props) {
       </div>
 
       {/* Fixed Footer with Continue Button */}
-      <div className="flex-shrink-0 bg-black/50 backdrop-blur-xl border-t border-gray-800/50 p-4">
-        {renderFooterButton()}
+      <div className="flex-shrink-0 bg-black/90 backdrop-blur-xl border-t border-gray-800/50 p-4 pb-safe">
+        <div className="max-w-md mx-auto">
+          {renderFooterButton()}
+        </div>
       </div>
     </div>
   )
