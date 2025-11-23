@@ -167,9 +167,8 @@ export async function GET() {
   <script>
     const voices = [
       { id: 'female-1', name: 'Kelli-2', description: '50-year-old female, extremely pleasing and comforting for deep guided meditation' },
-      { id: 'female-2', name: 'Sarah', description: 'Professional & reassuring' },
-      { id: 'male-1', name: 'Bernard-1', description: 'Soft & subdued for meditations' },
-      { id: 'male-2', name: 'George', description: 'Warm British resonance' }
+      { id: 'female-2', name: 'Shelia-1', description: 'Calming female voice for guided meditations' },
+      { id: 'male-1', name: 'Bernard-1', description: 'Soft & subdued for meditations' }
     ];
 
     const WORD_COUNT = 100;

@@ -10,9 +10,8 @@ import { AppleToggle, AppleCard, AppleProgress, ApplePillButton } from './AppleU
 
 const VOICES = [
   { id: 'female-1', name: 'Kelli-2', description: '50-year-old female, extremely pleasing and comforting for deep guided meditation', icon: '🎙️' },
-  { id: 'female-2', name: 'Sarah', description: 'Professional & reassuring', icon: '🎙️' },
+  { id: 'female-2', name: 'Shelia-1', description: 'Calming female voice for guided meditations', icon: '🎙️' },
   { id: 'male-1', name: 'Bernard-1', description: 'Soft & subdued for meditations', icon: '🎙️' },
-  { id: 'male-2', name: 'George', description: 'Warm British resonance', icon: '🎙️' },
 ]
 
 const SURVEY_QUESTIONS = [

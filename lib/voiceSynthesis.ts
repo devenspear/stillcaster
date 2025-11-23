@@ -17,19 +17,14 @@ export class VoiceSynthesis {
       description: '50-year-old female, extremely pleasing and comforting for deep guided meditation'
     },
     'female-2': {
-      id: 'EXAVITQu4vr4xnSDxMaL', // Sarah - professional, warm, confident
-      name: 'Sarah',
-      description: 'Young adult woman with confident, warm, and reassuring professional tone'
+      id: 'lVmv79IJaUdqekJlBLHn', // Shelia-1 - custom meditation voice
+      name: 'Shelia-1',
+      description: 'Calming female voice for guided meditations'
     },
     'male-1': {
       id: 'xtwJZRzZhlI4QAgP0tT3', // Bernard-1 - custom meditation voice
       name: 'Bernard-1',
       description: 'Soft and subdued male voice, optimal for meditations and narrations'
-    },
-    'male-2': {
-      id: 'JBFqnCBsd6RMkjVDRZzb', // George - warm British voice
-      name: 'George',
-      description: 'Warm British resonance with mature, captivating quality'
     }
   }
 
