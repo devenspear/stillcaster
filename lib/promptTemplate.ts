@@ -105,13 +105,18 @@ export class PromptTemplateManager {
     const availableMinutes = durationMinutes - voiceStartDelay - 0.17; // 0.17 min = ~10s outro
 
     // MEDITATION PACE: Based on actual ElevenLabs voice profile testing
-    // Measured at /api/voice/test-wpm:
-    // - Kelli-2: 117.7 WPM (with SSML pauses)
-    // - Bernard-1: 121.9 WPM (with SSML pauses)
-    // - Shelia-1: (test pending)
+    // Initial measurements (before pause adjustments):
+    // - Kelli-2: 120.5 WPM - TOO FAST for meditation
+    // - Shelia-1: 117.3 WPM - TOO FAST for meditation
+    // - Bernard-1: 120.2 WPM - TOO FAST for meditation
     //
-    // Using 115 WPM as baseline (slightly conservative)
-    const baseWordsPerMinute = 115;
+    // ADJUSTED: Increased SSML pauses to slow down to meditation pace
+    // - Period: 1.5s → 2.5s
+    // - Comma: 0.8s → 1.2s
+    //
+    // Target: 70-80 WPM effective rate for proper meditation pacing
+    // Using 75 WPM with longer pauses = ~60 WPM final delivery
+    const baseWordsPerMinute = 75;
 
     // SSML pauses ADD time on top of speaking time:
     // - Each period (.) adds 1.5s pause

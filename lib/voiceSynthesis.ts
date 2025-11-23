@@ -46,11 +46,11 @@ export class VoiceSynthesis {
 
     // Add natural pauses at sentence endings using SSML breaks
     // NOTE: Prosody rate control removed (was causing audio artifacts)
-    // Only using break tags for natural pacing
-    processedText = processedText.replace(/\./g, '.<break time="1.5s"/>')
-    processedText = processedText.replace(/,/g, ',<break time="0.8s"/>')
-    processedText = processedText.replace(/:/g, ':<break time="1.0s"/>')
-    processedText = processedText.replace(/;/g, ';<break time="1.0s"/>')
+    // MEDITATION PACING: Longer pauses for deeper meditation experience
+    processedText = processedText.replace(/\./g, '.<break time="2.5s"/>') // Increased from 1.5s
+    processedText = processedText.replace(/,/g, ',<break time="1.2s"/>') // Increased from 0.8s
+    processedText = processedText.replace(/:/g, ':<break time="1.5s"/>') // Increased from 1.0s
+    processedText = processedText.replace(/;/g, ';<break time="1.5s"/>') // Increased from 1.0s
 
     // Add emphasis on key meditation words for natural delivery
     processedText = processedText.replace(/\b(breathe|breath|relax|release|peace|calm)\b/gi, '<emphasis level="moderate">$1</emphasis>')
