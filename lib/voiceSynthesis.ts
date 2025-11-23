@@ -21,6 +21,11 @@ export class VoiceSynthesis {
       name: 'Shelia-1',
       description: 'Calming female voice for guided meditations'
     },
+    'female-3': {
+      id: 'Atp5cNFg1Wj5gyKD7HWV', // Natasha - meditation voice
+      name: 'Natasha',
+      description: 'Soothing female voice for meditation guidance'
+    },
     'male-1': {
       id: 'xtwJZRzZhlI4QAgP0tT3', // Bernard-1 - custom meditation voice
       name: 'Bernard-1',
